@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>2048 Mini</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff7ed;
+    color: white;
+    text-align: center;
+  }
+
+  h1 {
+    margin-top: 20px;
+  }
+
+  #score {
+    margin: 10px;
+    font-size: 18px;
+  }
+
+  #game {
+    margin: 20px auto;
+    display: grid;
+    gap: 8px;
+    width: 90vmin;
+    height: 90vmin;
+    max-width: 400px;
+    max-height: 400px;
+    background: #030303;
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .tile {
+    background: #030303;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 22px;
+    border-radius: 8px;
+    transition: 0.1s;
+  }
+
+  .tile[data-value="2"] { background: #eee4da; color:#000;}
+  .tile[data-value="4"] { background: #ede0c8; color:#000;}
+  .tile[data-value="8"] { background: #f2b179;}
+  .tile[data-value="16"] { background: #f59563;}
+  .tile[data-value="32"] { background: #f67c5f;}
+  .tile[data-value="64"] { background: #f65e3b;}
+  .tile[data-value="128"] { background: #edcf72;}
+  .tile[data-value="256"] { background: #edcc61;}
+  .tile[data-value="512"] { background: #edc850;}
+  .tile[data-value="1024"] { background: #edc53f;}
+  .tile[data-value="2048"] { background: #edc22e;}
+  
+  /* Overlay Panel */
+  #menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .panel {
+    background: #030303;
+    padding: 30px;
+    border-radius: 15px;
+    width: 280px;
+  }
+
+  select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+  }
+
+  button {
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 0.9;
+  }
+</style>
+</head>
+<body>
+
+<h1>2048</h1>
+<div id="score">Score: 0</div>
+<div id="game"></div>
+
+<div id="menu">
+  <div class="panel">
+    <h2>Start Game</h2>
+    <select id="sizeSelect">
+      <option value="4">4 x 4 (Classic)</option>
+      <option value="5">5 x 5 (Hard)</option>
+    </select>
+    <button onclick="startGame()">Start</button>
+  </div>
+</div>
+
+<script>
+let size = 4;
+let board = [];
+let score = 0;
+const game = document.getElementById("game");
+const scoreDisplay = document.getElementById("score");
+const menu = document.getElementById("menu");
+
+function startGame() {
+  size = parseInt(document.getElementById("sizeSelect").value);
+  score = 0;
+  scoreDisplay.textContent = "Score: " + score;
+  menu.style.display = "none";
+  init();
+}
+
+function init() {
+  board = Array(size).fill().map(() => Array(size).fill(0));
+  game.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  addTile(); addTile();
+  draw();
+}
+
+function draw() {
+  game.innerHTML = "";
+  board.flat().forEach(cell => {
+    const tile = document.createElement("div");
+    tile.className = "tile";
+    tile.dataset.value = cell;
+    tile.textContent = cell || "";
+    game.appendChild(tile);
+  });
+}
+
+function addTile() {
+  let empty = [];
+  board.forEach((row, r) =>
+    row.forEach((cell, c) => {
+      if (!cell) empty.push({r,c});
+    })
+  );
+  if (!empty.length) return;
+  let {r,c} = empty[Math.floor(Math.random()*empty.length)];
+  board[r][c] = Math.random()<0.9?2:4;
+}
+
+function slide(row) {
+  row = row.filter(v=>v);
+  for (let i=0;i<row.length-1;i++){
+    if(row[i]===row[i+1]){
+      row[i]*=2;
+      score+=row[i];
+      row[i+1]=0;
+    }
+  }
+  row=row.filter(v=>v);
+  while(row.length<size) row.push(0);
+  return row;
+}
+
+function rotate(){
+  board=board[0].map((_,i)=>board.map(r=>r[i])).reverse();
+}
+
+function moveLeft(){
+  let old=JSON.stringify(board);
+  board=board.map(r=>slide(r));
+  if(JSON.stringify(board)!==old) addTile();
+}
+
+function moveRight(){
+  let old=JSON.stringify(board);
+  board=board.map(r=>slide(r.reverse()).reverse());
+  if(JSON.stringify(board)!==old) addTile();
+}
+
+function moveUp(){ rotate();rotate();rotate(); moveRight(); rotate(); }
+function moveDown(){ rotate(); moveRight(); rotate();rotate();rotate(); }
+
+document.addEventListener("keydown",e=>{
+  if(menu.style.display!=="none") return;
+  if(e.key==="ArrowLeft") moveLeft();
+  if(e.key==="ArrowRight") moveRight();
+  if(e.key==="ArrowUp") moveUp();
+  if(e.key==="ArrowDown") moveDown();
+  scoreDisplay.textContent="Score: "+score;
+  draw();
+});
+</script>
+
+</body>
+</html>
