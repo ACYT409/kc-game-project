@@ -1,0 +1,36 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Life Sim</title>
+</head>
+<h1>Life Simulator</h1>
+    <div class="header">
+
+        <div>💰 RM <span id="money-text">200</span></div>
+        <div>💼 Job: <span id="job-text">None</span></div>
+        <div>🍔 Hunger: <span id="hunger-text">100</span>%</div>
+              
+    </div>
+    <div class="container">
+
+    <body>
+   <div class="box">
+            <h2>💼 Find a Job</h2>
+            <p>Earn money every second.</p>
+            <button class="btn-job" onclick="takeJob('Dishwasher', 5)">Dishwasher (RM 5/sec)</button>
+            <button class="btn-job" onclick="takeJob('Food Delivery', 15)">Food Delivery (RM 15/sec)</button>
+            <button class="btn-job" onclick="takeJob('Office Worker', 40)">Office Worker (RM 40/sec)</button>
+        </div>
+   <div class="box">
+    <h2> 🍔 Food Section</h2>
+    <p>Eat to replenish Hunger</p>
+    <button class="btn-food" onclick="eatfood('Roti Canai',5,20)">Roti Canai (Rm5)  [20 Hunger]</button>
+    <button class="btn-food" onclick="eatfood('Burger',5,20)">Burger (Rm15)  [40 Hunger]</button>
+    <button class="btn-food" onclick="eatfood('Crackers',5,20)">Crackers (Rm1)  [3 Hunger]</button>
+      
+  </div>
+</div>
+  
