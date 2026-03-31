@@ -9,7 +9,7 @@
 <h1>Life Simulator</h1>
     <div class="header">
 
-        <div>💰 RM <span id="money-text">200</span></div>
+      <div>💰 RM <span id="money-text">200</span></div>
         <div>💼 Job: <span id="job-text">None</span></div>
         <div>🍔 Hunger: <span id="hunger-text">100</span>%</div>
               
@@ -53,21 +53,22 @@
         function takeJob(newJobName, newSalary) {
             jobName = newJobName;
             salary = newSalary;
-            showMessage
+            showMessage ("You are now working as a " + jobName );
+         updateScreen();
         }
 
         function eatFood(foodName, cost, fillAmount) {
             if (money >= cost) {
-                money = money - cost; // Deduct money
-                hunger = hunger + fillAmount; // Add hunger
+                money = money - cost; 
+                hunger = hunger + fillAmount;
                 
               
            if (hunger > 100) {
                     hunger = 100;
                 }
-                showMessage
+              showMessage("You ate a" + foodname)
             } else {
-                showMessage
+             showMessage ("You have not enough Money to buy" + foodName)
             }
         }
 
@@ -75,10 +76,10 @@
             if (money >= cost) {
                 money = money - cost;
                 passiveIncome = passiveIncome + extraIncome;
-                showMessage("You bought a " + itemName + "!");
+                showMessage("You bought a " + itemName);
                 updateScreen();
             } else {
-                showMessage("You need RM " + cost + " to buy this!");
+          showMessage("You need RM " + cost + " to buy this!");
             }
         }
 
@@ -104,10 +105,10 @@ if (hunger <= 0) {
  location.reload(); }
 
      
-       let randomNumber = Math.random(); 
-            if (randomNumber < 0.05) {
-                money = money + 50;
-                showMessage
+    let randomNumber = Math.random(); 
+        if (randomNumber < 0.05) {
+         money = money + 50;
+         showMessage("You found Rm 50 on the floor!")
             }
 
   
