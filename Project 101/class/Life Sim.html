@@ -30,7 +30,55 @@
     <button class="btn-food" onclick="eatfood('Roti Canai',5,20)">Roti Canai (Rm5)  [20 Hunger]</button>
     <button class="btn-food" onclick="eatfood('Burger',5,20)">Burger (Rm15)  [40 Hunger]</button>
     <button class="btn-food" onclick="eatfood('Crackers',5,20)">Crackers (Rm1)  [3 Hunger]</button>
+
+     <div class="box">
+ <h2>🏢 Investments</h2>
+      <p>Passive Income: RM <span id="passive-text">0</span>/sec</p>
+      <button onclick="buyInvestment('Vending Machine', 500, 10)">Buy Vending Machine (RM 500)</button>
+      <button onclick="buyInvestment('Small Shop', 5000, 150)">Buy Small Shop (RM 5,000)</button>
       
   </div>
-</div>
+   </div>
+
+ <script>
+  let money = 200;
+  let hunger = 100;
+  let salary = 0;
+  let passiveincome = 0;
+  let jobName = "unemployed";
+
+
+  function takejob(newJobName , newSalary){
+   jobName = newJobName
+   salary = newSalary
+
+  function eatfood(replenishHunger , foodName , Cost)
+   if(money >= Cost){
+    money = money - Cost;
+    hunger = hunger + replenishHunger;
+
+    if (hunger > 100) {
+     hunger = 100;
+
+  function buyInvestment(Item , Cost , extraIncome)
+     if (money >= Cost){
+      money = money - cost;
+      passivincome = passiveincome + extraIncome
+
+     function updateScreen() {
+            document.getElementById("money-text").innerText = money;
+            document.getElementById("hunger-text").innerText = hunger;
+            document.getElementById("job-text").innerText = jobName;
+            document.getElementById("passive-text").innerText = passiveincome;
+     }
+      money = money + salary + passiveincome;
+      hunger = hunger-3;
+      if (hunger <= 0 ){
+       alert("GameOver you starved to death. You had RM " + money);
+    location.reload();
+      }
+     
+ </script>
+    </body>
+     </html>
   
