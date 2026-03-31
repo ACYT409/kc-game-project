@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beginner Life Sim</title>
 </head>
+ <div id="message-board">Welcome to Life Simulator!</div>
 <h1>Life Simulator</h1>
     <div class="header">
 
@@ -27,9 +28,9 @@
    <div class="box">
     <h2> 🍔 Food Section</h2>
     <p>Eat to replenish Hunger</p>
-    <button class="btn-food" onclick="eatfood('Roti Canai',5,20)">Roti Canai (Rm5)  [20 Hunger]</button>
-    <button class="btn-food" onclick="eatfood('Burger',5,20)">Burger (Rm15)  [40 Hunger]</button>
-    <button class="btn-food" onclick="eatfood('Crackers',5,20)">Crackers (Rm1)  [3 Hunger]</button>
+    <button class="btn-food" onclick="eatFood('Roti Canai',5,20)">Roti Canai (Rm5)  [20 Hunger]</button>
+    <button class="btn-food" onclick="eatFood('Burger',5,20)">Burger (Rm15)  [40 Hunger]</button>
+    <button class="btn-food" onclick="eatFood('Crackers',5,20)">Crackers (Rm1)  [3 Hunger]</button>
   
   <div class="box">
             <h2>🏢 Investments</h2>
@@ -42,79 +43,91 @@
 
     <script>
      
-        let money = 200;
-        let hunger = 100;
-        let salary = 0;          
-        let passiveIncome = 0;    
-        let jobName = "Unemployed";
+     let money = 200;
+let hunger = 100;
+let salary = 0;          
+let passiveIncome = 0;    
+let jobName = "Unemployed";
 
+function takeJob(newJobName, newSalary) {
+  jobName = newJobName;
+  salary = newSalary;
+  showMessage("You are now working as a " + jobName);
+  updateScreen();
+}
+
+function eatFood(foodName, cost, fillAmount) {
+  if (money >= cost) {
+    money -= cost;
+    hunger += fillAmount;
+
+    if (hunger > 100) hunger = 100;
+
+    showMessage("You ate " + foodName);
+  } else {
+    showMessage("Not enough money to buy " + foodName);
+  }
+}
+
+function buyInvestment(itemName, cost, extraIncome) {
+  if (money >= cost) {
+    money -= cost;
+    passiveIncome += extraIncome;
+    showMessage("You bought a " + itemName);
+  } else {
+    showMessage("You need RM " + cost);
+  }
+  updateScreen();
+}
+
+function showMessage(text) {
+  document.getElementById("message-board").innerText = text;
+}
+
+function updateScreen() {
+  document.getElementById("money-text").innerText = money;
+  document.getElementById("hunger-text").innerText = hunger;
+  document.getElementById("job-text").innerText = jobName;
+  document.getElementById("passive-text").innerText = passiveIncome;
+}
+
+setInterval(function () {
+  money += salary + passiveIncome;
+  hunger -= 3;
+
+  if (hunger <= 0) {
+    alert("Game Over! You starved. You had RM " + money);
+    location.reload();
+  }
+
+  let randomNumber = Math.random();
+
+  if (randomNumber < 0.001) {
+    money += 500000;
+    showMessage("🎉 Lottery! +RM500000");
+
+  } else if (randomNumber < 0.01) {
+    money += 1000;
+    showMessage("👨‍👩‍👧 Parents gave you RM1000");
+
+  } else if (randomNumber < 0.08) {
+    money += 200;
+    showMessage("💰 Found RM200");
+
+  } else if (randomNumber < 0.10) {
+    money -= 10;
+    showMessage("💸 Dropped RM10");
+
+  } else if (randomNumber < 0.15) {
+    money -= 300;
+    showMessage("🧾 Paid bill (-RM300)");
+  }
+
+  if (money < 0) money = 0;
+
+  updateScreen();
+}, 1000);
     
-
-        function takeJob(newJobName, newSalary) {
-            jobName = newJobName;
-            salary = newSalary;
-            showMessage ("You are now working as a " + jobName );
-         updateScreen();
-        }
-
-        function eatFood(foodName, cost, fillAmount) {
-            if (money >= cost) {
-                money = money - cost; 
-                hunger = hunger + fillAmount;
-                
-              
-           if (hunger > 100) {
-                    hunger = 100;
-                }
-              showMessage("You ate a" + foodname)
-            } else {
-             showMessage ("You have not enough Money to buy" + foodName)
-            }
-        }
-
-        function buyInvestment(itemName, cost, extraIncome) {
-            if (money >= cost) {
-                money = money - cost;
-                passiveIncome = passiveIncome + extraIncome;
-                showMessage("You bought a " + itemName);
-                updateScreen();
-            } else {
-          showMessage("You need RM " + cost + " to buy this!");
-            }
-        }
-
-      
-        function showMessage(text) {
-            document.getElementById("message-board").innerText = text;
-        }
-
-        function updateScreen() {
-            document.getElementById("money-text").innerText = money;
-            document.getElementById("hunger-text").innerText = hunger;
-            document.getElementById("job-text").innerText = jobName;
-            document.getElementById("passive-text").innerText = passiveIncome;
-        }
-
-        
-        setInterval(function() {
-            
-money = money + salary + passiveIncome;
-hunger = hunger - 3; // Lose 3 hunger every second
-if (hunger <= 0) {
- alert("Game Over! You starved to death. You had RM " + money);
- location.reload(); }
-
-     
-    let randomNumber = Math.random(); 
-        if (randomNumber < 0.05) {
-         money = money + 50;
-         showMessage("You found Rm 50 on the floor!")
-            }
-
-  
-            updateScreen();
-
-        }, 1000);
 
     </script>
 </body>
