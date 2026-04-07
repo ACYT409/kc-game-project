@@ -18,10 +18,13 @@
         }
 
         .container {
-            display: flex;
-            justify-content: space-around;
-            gap: 20px;
-            flex-wrap: wrap;
+              display: flex;
+              justify-content: space-around
+              align-items: flex-start;
+              gap: 20px;
+              flex-wrap: wrap;
+              max-width: 1200px;
+              margin: 0 auto;
         }
         
         .box {
