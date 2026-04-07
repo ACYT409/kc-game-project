@@ -57,7 +57,7 @@ let inventory = {
  bicycle: false,
  laptop: false
 };
-
+     }
 function buytools(toolname, cost)
      if (money >= cost) {
     money = money-cost;
@@ -83,7 +83,6 @@ function takeJob(newJobName, newSalary) {
   updateScreen();
 }
 }
-
 function eatFood(foodName, cost, fillAmount) {
   if (money >= cost) {
     money -= cost;
