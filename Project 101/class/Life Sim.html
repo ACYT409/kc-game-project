@@ -40,8 +40,8 @@
             <button onclick="buyInvestment('Small Shop', 5000, 150)">Buy Small Shop (RM 5,000)</button>
         </div>
    <div class="box">
-    <h2>Tools</h2>
-    <p>Updrage Jobs></p>
+    <h2>🔨Tools</h2>
+    <p>Updrage Jobs</p>
     <button onclick="buytools('bicycle',250,)">Buy Bicycle (250)</button>
     <button onclick="buytools('Laptop',3500,)">Buy Laptop (3500)</button>
     </div>
@@ -53,12 +53,35 @@ let hunger = 100;
 let salary = 0;          
 let passiveIncome = 0;    
 let jobName = "Unemployed";
+let inventory = {
+ bicycle: false,
+ laptop: false
+};
 
+function buytools(toolname, cost)
+     if (money >= cost) {
+    money = money-cost;
+    inventory[toolName] = true;
+    document.getElementById("tools-text").innerText = toolName; 
+    showMessage("You bought a " + toolName);
+  } else {
+    showMessage("Not enough money for a " + toolName);
+  }
+  updateScreen();
+}
 function takeJob(newJobName, newSalary) {
-  jobName = newJobName;
+ if (newJobName === 'Food Delivery', !inventory.bicycle) {
+  showMessage("You need a Bicycle for this Job!");
+  return ;
+ }
+ if (newJobName === 'Office Worker' && !inventory.laptop) {
+    showMessage("You need a Laptop for this job!");
+    return; 
+ jobName = newJobName;
   salary = newSalary;
   showMessage("You are now working as a " + jobName);
   updateScreen();
+}
 }
 
 function eatFood(foodName, cost, fillAmount) {
